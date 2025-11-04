@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The Application class for my TODO List app
+ */
 public class App {
     private final String intro = "Welcome to my Java TODO List App\n" +
             "-----------------------------------\n";
@@ -21,15 +24,27 @@ public class App {
     private final Scanner scanner;
     private final String tasksFile;
 
+    /**
+     * The default constructor
+     */
     public App() {
         this("tasks.txt", new Scanner(System.in));
     }
 
+    /**
+     * Constructor that allows a tasks file and a Scanner
+     *
+     * @param tasksFile
+     * @param scanner
+     */
     public App(String tasksFile, Scanner scanner) {
         this.tasksFile = tasksFile;
         this.scanner = scanner;
     }
 
+    /**
+     * The run method that runs a while loop which displays the menu
+     */
     public void run() {
         System.out.println(intro);
         loadTasks();
@@ -59,6 +74,9 @@ public class App {
         }
     }
 
+    /**
+     * Displays all the tasks
+     */
     public void listTasks() {
         if (tasks.isEmpty()) {
             System.out.println("Nothing to do...");
@@ -73,6 +91,10 @@ public class App {
         }
     }
 
+    /**
+     * Prompts the user to add a task
+     * Saves the task to the file
+     */
     public void addTask() {
         System.out.print("Enter task description: ");
         String description = scanner.nextLine();
@@ -81,6 +103,10 @@ public class App {
         saveTasks();
     }
 
+    /**
+     * Prompts the user to mark a task as complete
+     * Updates the list and saves the change to the file
+     */
     public void completeTask() {
         listTasks();
         System.out.print("Which task would you like to complete?: ");
@@ -105,6 +131,12 @@ public class App {
         saveTasks();
     }
 
+    /**
+     * Displays a list of completed tasks
+     * The user can select one of the completed tasks to remove
+     * It removes the selected tasks and updates the list
+     * It also saves to the file
+     */
     public void removeTask() {
         ArrayList<Integer> indexes = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++) {
@@ -147,6 +179,10 @@ public class App {
         saveTasks();
     }
 
+    /**
+     * Saves to the file
+     * Each line in the file contains a task, and it's completion status
+     */
     public void saveTasks() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(tasksFile))) {
             for (Task task : tasks) {
@@ -158,6 +194,10 @@ public class App {
         }
     }
 
+    /**
+     * Loads the file
+     * If there is no file then the task list remains empty
+     */
     private void loadTasks() {
         File file = new File(tasksFile);
         if (!file.exists()) {
